@@ -1,6 +1,8 @@
 package com.example.mymail;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -9,11 +11,23 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 /**
@@ -33,9 +47,14 @@ public class SigninFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private TextView forgetpw;
+    private EditText email;
+    private  EditText pw;
+    private Button signin,close;
     private OnFragmentInteractionListener mListener;
-
+    private FirebaseAuth firebaseAuth;
+    private ProgressBar progressBar;
+    private String emailpattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
     public SigninFragment() {
         // Required empty public constructor
     }
@@ -75,6 +94,13 @@ public class SigninFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_signin, container, false);
         donthaveaccount=view.findViewById(R.id.dont_have_account);
         parentFramelayout=getActivity().findViewById(R.id.register_layout);
+        email=view.findViewById(R.id.sign_in_email);
+        pw=view.findViewById(R.id.signin_email_pw);
+        signin=view.findViewById(R.id.sign_in);
+        forgetpw=view.findViewById(R.id.sign_in_forget);
+        close=view.findViewById(R.id.sign_in_del);
+        firebaseAuth=FirebaseAuth.getInstance();
+        progressBar=view.findViewById(R.id.sign_in_progress);
         return view;
     }
 
@@ -87,6 +113,100 @@ public class SigninFragment extends Fragment {
                 setFragment(new SignupFragment());
             }
         });
+        forgetpw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFragment(new ResetPwFragment());
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainIntent();
+            }
+        });
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkInput();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        pw.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkInput();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkemailandpw();
+            }
+        });
+    }
+
+    private void checkemailandpw() {
+        if (email.getText().toString().matches(emailpattern)){
+            if (pw.length()>=0){
+                progressBar.setVisibility(View.VISIBLE);
+                signin.setEnabled(false);
+                signin.setTextColor(Color.argb(50,255,255,255));
+                firebaseAuth.signInWithEmailAndPassword(email.getText().toString(),pw.getText().toString())
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                               mainIntent();
+                            }else {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                signin.setEnabled(true);
+                                signin.setTextColor(getResources().getColor(R.color.colorwh));
+                                String error=task.getException().getMessage();
+                                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+            }else {
+                Toast.makeText(getActivity(), "incorrect pw", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(getActivity(), "incorrect email or pw", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void checkInput() {
+        if (!TextUtils.isEmpty(email.getText())){
+            if (!TextUtils.isEmpty(pw.getText())){
+                signin.setEnabled(true);
+                signin.setTextColor(getResources().getColor(R.color.colorwh));
+            }else {
+                signin.setEnabled(false);
+                signin.setTextColor(Color.argb(50,255,255,255));
+            }
+        }else {
+            signin.setEnabled(false);
+            signin.setTextColor(Color.argb(50,255,255,255));
+        }
     }
 
     private void setFragment(Fragment fragment) {
@@ -95,6 +215,12 @@ public class SigninFragment extends Fragment {
         fragmentTransaction.replace(parentFramelayout.getId(),fragment);
         fragmentTransaction.commit();
 
+    }
+
+    private  void mainIntent(){
+        Intent main=new Intent(getActivity(),SplashActivity.class);
+        startActivity(main);
+        getActivity().finish();
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

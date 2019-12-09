@@ -128,6 +128,12 @@ public class SignupFragment extends Fragment {
                 setFragment(new SigninFragment());
             }
         });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainIntent();
+            }
+        });
         email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -221,9 +227,7 @@ public class SignupFragment extends Fragment {
                                             public void onComplete(@NonNull Task<DocumentReference> task) {
                                                     if (task.isSuccessful()){
                                                         Log.d("111", "onComplete: ");
-                                                        Intent mainIntent=new Intent(getActivity(),MainActivity.class);
-                                                        startActivity(mainIntent);
-                                                        getActivity().finish();
+                                                       mainIntent();
                                                     }
                                                     else {
                                                         Log.d("111", "onComplete:wwwww ");
@@ -288,6 +292,11 @@ public class SignupFragment extends Fragment {
         fragmentTransaction.replace(parentFramlayout.getId(),fragment);
         fragmentTransaction.commit();
 
+    }
+    private  void mainIntent(){
+        Intent mainIntent=new Intent(getActivity(),SplashActivity.class);
+        startActivity(mainIntent);
+        getActivity().finish();
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
