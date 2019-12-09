@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1095716389056",
+    "firebase_url": "https://mymail-ade84.firebaseio.com",
+    "project_id": "mymail-ade84",
+    "storage_bucket": "mymail-ade84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095716389056:android:22984913cb4c34949a6d25",
+        "android_client_info": {
+          "package_name": "com.example.mymail"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1095716389056-m1veeeuhmnta9o7h5jpi3ff48scn7p54.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mymail",
+            "certificate_hash": "28a7ac69cc822ec6881cc74fa74fb9bbe7a7ff28"
+          }
+        },
+        {
+          "client_id": "1095716389056-uqv2f0fmd6v1fd6dursb4glptr1phc8i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVMkb0CFDyM2d20xX-0tekch_gofbCcQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1095716389056-uqv2f0fmd6v1fd6dursb4glptr1phc8i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
