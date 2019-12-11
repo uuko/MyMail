@@ -1,5 +1,6 @@
 package com.example.mymail;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -13,12 +14,19 @@ import androidx.fragment.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +56,10 @@ public class ResetPwFragment extends Fragment {
     private String mParam2;
     private FrameLayout parentFramelayout;
     private FirebaseAuth firebaseAuth;
+    private ViewGroup emailcontainer;
+    private ImageView emailicon;
+    private TextView emailicontext;
+    private ProgressBar progressBar;
     private OnFragmentInteractionListener mListener;
 
     public ResetPwFragment() {
@@ -91,11 +103,15 @@ public class ResetPwFragment extends Fragment {
         goback=view.findViewById(R.id.fogot_pw_goback);
         parentFramelayout=getActivity().findViewById(R.id.register_layout);
         firebaseAuth=FirebaseAuth.getInstance();
+        emailcontainer=view.findViewById(R.id.fogot_pw_linear);
+        emailicon=view.findViewById(R.id.fogot_email_icon);
+        emailicontext=view.findViewById(R.id.forgot_email_ictext);
+        progressBar=view.findViewById(R.id.forgot_pw_bar);
         return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         registeredemail.addTextChangedListener(new TextWatcher() {
             @Override
@@ -122,6 +138,10 @@ public class ResetPwFragment extends Fragment {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TransitionManager.beginDelayedTransition(emailcontainer);
+                progressBar.setVisibility(View.VISIBLE);
+                emailicontext.setVisibility(View.GONE);
+
                 reset.setEnabled(false);
                 reset.setTextColor(Color.argb(50,255,255,255));
 
@@ -130,11 +150,24 @@ public class ResetPwFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()){
+                                    emailicontext.setVisibility(View.VISIBLE);
+                                    emailicon.setVisibility(View.VISIBLE);
+                                    emailicontext.setText("email send success");
+                                    emailicontext.setTextColor(getResources().getColor(R.color.colorPrimary));
+                                    TransitionManager.beginDelayedTransition(emailcontainer);
                                     Toast.makeText(getActivity(), "email send success", Toast.LENGTH_SHORT).show();
                                 }else {
                                     String error=task.getException().getMessage();
-                                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                                    Log.d("444", "onComplete: ");
+                                    progressBar.setVisibility(View.GONE);
+                                    emailicontext.setVisibility(View.VISIBLE);
+                                    emailicon.setVisibility(View.VISIBLE);
+                                    emailicontext.setText(error);
+                                    emailicontext.setTextColor(getResources().getColor(R.color.red));
+                                    TransitionManager.beginDelayedTransition(emailcontainer);
+//                                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
                                 }
+                                progressBar.setVisibility(View.GONE);
                                 reset.setEnabled(true);
                                 reset.setTextColor(getResources().getColor(R.color.colorwh));
                             }

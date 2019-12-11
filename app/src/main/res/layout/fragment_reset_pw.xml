@@ -36,11 +36,12 @@
             android:id="@+id/textView2"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:textColor="#008800"
-            android:textAlignment="center"
+            android:layout_marginTop="16dp"
             android:text="dont worry we need your registered email to send pw"
+            android:textAlignment="center"
+            android:textColor="#008800"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.621"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -50,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:backgroundTint="@color/colorPrimaryDark"
@@ -58,7 +59,9 @@
             android:hint="enter your register email"
             android:inputType="textEmailAddress"
             android:textColor="@color/colorPrimary"
+            android:theme="@style/Progress"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -86,7 +89,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="3dp"
             android:layout_marginEnd="180dp"
             android:layout_marginRight="180dp"
             android:text="Check your inbox after clickong"
@@ -100,6 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="&lt;&lt; Go back"
+            android:layout_marginBottom="8dp"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -127,18 +131,19 @@
                 android:id="@+id/fogot_email_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
-                android:visibility="gone"
-                android:src="@drawable/ic_launcher_background" />
+                android:src="@drawable/ic_launcher_background"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/forgot_email_ictext"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="recovery email success check inbox"
-                android:textColor="#11A10C" />
+                android:textColor="#11A10C"
+                android:visibility="gone" />
         </LinearLayout>
 
         <ProgressBar
@@ -146,15 +151,16 @@
             style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
+            android:layout_marginBottom="28dp"
 
+            android:indeterminate="true"
             android:theme="@style/Progress"
             android:visibility="gone"
-            app:layout_editor_absoluteX="181dp"
-            app:layout_editor_absoluteY="428dp"
             app:layout_constraintBottom_toTopOf="@+id/reset_pw"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.457"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_editor_absoluteX="181dp"
+            app:layout_editor_absoluteY="428dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
