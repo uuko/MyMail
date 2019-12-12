@@ -227,7 +227,8 @@ public class SignupFragment extends Fragment {
                                             public void onComplete(@NonNull Task<DocumentReference> task) {
                                                     if (task.isSuccessful()){
                                                         Log.d("111", "onComplete: ");
-                                                       mainIntent();
+                                                      // mainIntent();
+                                                        setFragment(new SigninFragment());
                                                     }
                                                     else {
                                                         Log.d("111", "onComplete:wwwww ");
