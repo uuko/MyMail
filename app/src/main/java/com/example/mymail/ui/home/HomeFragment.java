@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
     private ViewPager bannersliderviewPager;
     private List<SliderModel> sliderModelList;
     private Timer timer;
-    final private long DELAY_T=3000;
+    final private long DELAY_T=2000;
     final private long PERIOD_T=3000;
     ////////////////
     private ImageView stripimg;
