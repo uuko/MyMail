@@ -1,5 +1,6 @@
 package com.example.mymail.ui.home;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +26,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.mymail.CategoryAdapter;
 import com.example.mymail.CategoryModel;
+import com.example.mymail.GridProductViewAdapter;
+import com.example.mymail.HorizonalProductAdapter;
+import com.example.mymail.HorizonalProductModel;
 import com.example.mymail.R;
 import com.example.mymail.SliderAdapter;
 import com.example.mymail.SliderModel;
@@ -50,13 +56,33 @@ public class HomeFragment extends Fragment {
     private Timer timer;
     final private long DELAY_T=2000;
     final private long PERIOD_T=3000;
-    ////////////////
+    ////////////////strip ad
     private ImageView stripimg;
     private ConstraintLayout stripconstaint;
-    private com.example.mymail.HomeFragment.OnFragmentInteractionListener mListener;
+    /////////////// horizonal product
+    private TextView horizonaltitle;
+    private Button viewallbtn;
+    private RecyclerView horizonalrecylceview;
+
 
     public HomeFragment() {
         // Required empty public constructor
+    }
+
+    public HomeFragment(String mParam1, String mParam2, RecyclerView categoryRecycleView, CategoryAdapter categoryAdapter, int currentpage, ViewPager bannersliderviewPager, List<SliderModel> sliderModelList, Timer timer, ImageView stripimg, ConstraintLayout stripconstaint, TextView horizonaltitle, Button viewallbtn, RecyclerView horizonalrecylceview) {
+        this.mParam1 = mParam1;
+        this.mParam2 = mParam2;
+        this.categoryRecycleView = categoryRecycleView;
+        this.categoryAdapter = categoryAdapter;
+        Currentpage = currentpage;
+        this.bannersliderviewPager = bannersliderviewPager;
+        this.sliderModelList = sliderModelList;
+        this.timer = timer;
+        this.stripimg = stripimg;
+        this.stripconstaint = stripconstaint;
+        this.horizonaltitle = horizonaltitle;
+        this.viewallbtn = viewallbtn;
+        this.horizonalrecylceview = horizonalrecylceview;
     }
 
     /**
@@ -68,14 +94,7 @@ public class HomeFragment extends Fragment {
      * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static com.example.mymail.HomeFragment newInstance(String param1, String param2) {
-        com.example.mymail.HomeFragment fragment = new com.example.mymail.HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -153,6 +172,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state==ViewPager.SCROLL_STATE_IDLE){
+                   // Log.d("777", "onTouch: ");
                     pageLooper();
                 }
             }
@@ -163,18 +183,42 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 pageLooper();
-                stopbannershow();
                 if (event.getAction()==MotionEvent.ACTION_MOVE){
+                    Log.d("777", "onTouch: asasa");
+                    stopbannershow();
                     startbannershow();
                 }
                 return false;
             }
 
         });
+        ///strip
         stripimg=view.findViewById(R.id.strip_ad_img);
         stripconstaint=view.findViewById(R.id.strip_ad_container);
         stripimg.setImageResource(R.drawable.common_google_signin_btn_icon_light_normal_background);
         stripconstaint.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        ///horizonal product
+        horizonaltitle=view.findViewById(R.id.horizonal_text);
+        viewallbtn=view.findViewById(R.id.horizonal_button);
+        horizonalrecylceview=view.findViewById(R.id.horizonal_scroll_layout);
+        List<HorizonalProductModel> horizonalProductModelList=new ArrayList<>();
+        horizonalProductModelList.add(new HorizonalProductModel(R.drawable.common_full_open_on_phone,"A","best","100"));
+        horizonalProductModelList.add(new HorizonalProductModel(R.drawable.common_full_open_on_phone,"A","best","100"));
+        horizonalProductModelList.add(new HorizonalProductModel(R.drawable.common_full_open_on_phone,"A","best","100"));
+        horizonalProductModelList.add(new HorizonalProductModel(R.drawable.common_full_open_on_phone,"A","best","100"));
+        HorizonalProductAdapter horizonalProductAdapter=new HorizonalProductAdapter(horizonalProductModelList);
+        LinearLayoutManager layoutManager1=new LinearLayoutManager(getContext());
+        layoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        horizonalrecylceview.setLayoutManager(layoutManager1);
+        horizonalrecylceview.setAdapter(horizonalProductAdapter);
+        horizonalProductAdapter.notifyDataSetChanged();
+        ///horizonal product
+        /// grid product
+        TextView gridTilte=view.findViewById(R.id.grid_layout_text);
+        Button  gridViewall=view.findViewById(R.id.grid_view_all);
+        GridView gridView=view.findViewById(R.id.griad_product_layout_view);
+
+        gridView.setAdapter(new GridProductViewAdapter(horizonalProductModelList));
         return view;
     }
 
@@ -197,35 +241,28 @@ public class HomeFragment extends Fragment {
             public void run() {
                 if (Currentpage>=sliderModelList.size()){
                     Currentpage=1;
-                }
-                      bannersliderviewPager.setCurrentItem(Currentpage++,true);
+                }bannersliderviewPager.setCurrentItem(Currentpage++,true);
             }
-
         };
         timer=new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                Log.d("777", "run: ");
                 handler.post(update);
             }
         },DELAY_T,PERIOD_T);
     }
     private  void  stopbannershow(){
-        timer.cancel();
-    }
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+        if (timer !=null){
+            Log.d("777", "stopbannershow: ");
+              timer.cancel();
+            timer.purge();
+            timer=null;
         }
     }
+    // TODO: Rename method, update argument and hook method into UI event
 
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     /**
      * This interface must be implemented by activities that contain this
