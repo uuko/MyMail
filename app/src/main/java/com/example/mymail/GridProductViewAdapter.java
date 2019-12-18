@@ -1,5 +1,6 @@
 package com.example.mymail;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class GridProductViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
         View view;
 
         TextView producttitle;
@@ -41,7 +42,13 @@ public class GridProductViewAdapter extends BaseAdapter {
         if (convertView==null){
             view= LayoutInflater.from(parent.getContext()).inflate(R.layout.horizonal_scroll_item,null);
            view.setElevation(0);
-
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent productDetailsintent=new Intent(parent.getContext(),ProductDetailsActivity.class);
+                    parent.getContext().startActivity(productDetailsintent);
+                }
+            });
             ImageView productimg=view.findViewById(R.id.h_s_product);
             productdes=view.findViewById(R.id.h_s_descipt);
             productprices=view.findViewById(R.id.h_s_product_price);

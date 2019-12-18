@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +19,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ProductSpefiFragment.OnFragmentInteractionListener} interface
+ * {@link MyCartFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ProductSpefiFragment#newInstance} factory method to
+ * Use the {@link MyCartFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProductSpefiFragment extends Fragment {
+public class MyCartFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -34,10 +33,10 @@ public class ProductSpefiFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RecyclerView productSpecifyRecycleView;
-    private OnFragmentInteractionListener mListener;
 
-    public ProductSpefiFragment() {
+    private OnFragmentInteractionListener mListener;
+    private RecyclerView cartItemRecyclerView;
+    public MyCartFragment() {
         // Required empty public constructor
     }
 
@@ -47,11 +46,11 @@ public class ProductSpefiFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ProductSpefiFragment.
+     * @return A new instance of fragment MyCartFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProductSpefiFragment newInstance(String param1, String param2) {
-        ProductSpefiFragment fragment = new ProductSpefiFragment();
+    public static MyCartFragment newInstance(String param1, String param2) {
+        MyCartFragment fragment = new MyCartFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -72,28 +71,22 @@ public class ProductSpefiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_product_spefi, container, false);
-        productSpecifyRecycleView=view.findViewById(R.id.product_specify_recycle_viewt);
-
-        LinearLayoutManager layoutManager=new LinearLayoutManager(view.getContext());
+        View view= inflater.inflate(R.layout.fragment_my_cart, container, false);
+        cartItemRecyclerView=view.findViewById(R.id.cart_items_recyclerview);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        Log.d("478", "onCreateView: "+layoutManager.getOrientation());
-        productSpecifyRecycleView.setLayoutManager(layoutManager);
+        cartItemRecyclerView.setLayoutManager(layoutManager);
 
-        List<ProductSpecifyModel> productSpecifyModelList=new ArrayList<>();
-        productSpecifyModelList.add(new ProductSpecifyModel(0,"GGG"));
-        productSpecifyModelList.add(new ProductSpecifyModel(1,"RAM","4GB"));
-        productSpecifyModelList.add(new ProductSpecifyModel(1,"RAM","4GB"));
-        productSpecifyModelList.add(new ProductSpecifyModel(1,"RAM","4GB"));
-        productSpecifyModelList.add(new ProductSpecifyModel(0,"GGG"));
+        List<CartItemModel> cartItemModelList=new ArrayList<>();
+        cartItemModelList.add(new CartItemModel(0,R.drawable.common_google_signin_btn_icon_dark,"px2",2,"4999","5999",1,0,0));
+        cartItemModelList.add(new CartItemModel(0,R.drawable.common_google_signin_btn_icon_dark,"px2",2,"4999","5999",1,0,0));
+        cartItemModelList.add(new CartItemModel(0,R.drawable.common_google_signin_btn_icon_dark,"px2",2,"4999","5999",1,0,0));
+        cartItemModelList.add(new CartItemModel(1,"price","1699","free","16999","5999"));
 
-
-       Log.d("333", "onCreateView: "+productSpecifyModelList.get(0).getFeatureName());
-
-        ProductSpecifyAdapter productSpecifyAdapter=new ProductSpecifyAdapter(productSpecifyModelList);
-        productSpecifyRecycleView.setAdapter(productSpecifyAdapter);
-        productSpecifyAdapter.notifyDataSetChanged();
-        return view;
+        CartAdapter cartAdapter=new CartAdapter(cartItemModelList);
+        cartItemRecyclerView.setAdapter(cartAdapter);
+        cartAdapter.notifyDataSetChanged();
+        return  view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

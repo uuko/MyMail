@@ -158,7 +158,7 @@
         app:layout_constraintTop_toBottomOf="@+id/code_indicator_imageview" />
 
     <LinearLayout
-        android:id="@+id/coupon_des_layout"
+        android:id="@+id/tr1111"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

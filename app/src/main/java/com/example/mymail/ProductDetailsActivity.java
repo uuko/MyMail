@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -27,6 +29,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     private TabLayout ProductDesTablayout;
     private ViewPager DesviewPager;
+
+    /////rating
+    private LinearLayout ratenowlayout;
+    ///
     private FloatingActionButton addwishBtn;
     private static  boolean Alredy_addedtowishlist;
     @Override
@@ -85,7 +91,29 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
             }
         });
+
+        ratenowlayout=findViewById(R.id.rate_now_container);
+        for (int x=0;x<ratenowlayout.getChildCount();x++){
+            final  int startposition=x;
+            ratenowlayout.getChildAt(x).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setRating(startposition);
+                }
+            });
+        }
     }
+
+    private void setRating(int startposition) {
+        for (int x=0;x<ratenowlayout.getChildCount();x++){
+            ImageView startBtn=(ImageView)ratenowlayout.getChildAt(x);
+            startBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#bebebe")));
+            if (x<=startposition){
+                startBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#ffbb00")));
+            }
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
