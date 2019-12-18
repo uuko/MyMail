@@ -1,5 +1,6 @@
 package com.example.mymail;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,12 +49,19 @@ public class HorizonalProductAdapter extends RecyclerView.Adapter<HorizonalProdu
         private TextView producttitle;
         private TextView productdes;
         private TextView productprices;
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             productimg=itemView.findViewById(R.id.h_s_product);
             productdes=itemView.findViewById(R.id.h_s_descipt);
             productprices=itemView.findViewById(R.id.h_s_product_price);
             producttitle=itemView.findViewById(R.id.h_s_product_title);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent productdetailontent=new Intent(itemView.getContext(),ProductDetailsActivity.class);
+                    itemView.getContext().startActivity(productdetailontent);
+                }
+            });
         }
         private void setProductimg(int resource){
             productimg.setImageResource(resource);

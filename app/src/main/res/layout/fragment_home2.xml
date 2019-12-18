@@ -57,6 +57,14 @@
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                <include layout="@layout/strip_ad_layout" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,13 +76,6 @@
                 <!--        <include layout="@layout/sliding_ad_banner" />-->
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-                <include layout="@layout/strip_ad_layout" />
-            </LinearLayout>
 
 
             <LinearLayout

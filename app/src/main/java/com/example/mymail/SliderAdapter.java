@@ -33,6 +33,7 @@ public class SliderAdapter extends PagerAdapter {
         container.addView(view,0);
         return view;
     }
+// 来判断显示的是否是同一张图片，这里我们将两个参数相比较返回即可
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {

@@ -15,12 +15,12 @@ public class GridProductViewAdapter extends BaseAdapter {
     public GridProductViewAdapter(List<HorizonalProductModel> horizonalProductModelList) {
         this.horizonalProductModelList = horizonalProductModelList;
     }
-
+    //取得項目(Item)的數量。通常數量就是從建構子傳入的陣列或是集合大小。
     @Override
     public int getCount() {
         return 4;
     }
-
+    //取得在這個position位置上的項目(Item)。position通常是資料在陣列或是集合上的位置。
     @Override
     public Object getItem(int position) {
         return null;

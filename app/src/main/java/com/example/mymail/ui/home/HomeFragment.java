@@ -183,6 +183,7 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 pageLooper();
+
                 if (event.getAction()==MotionEvent.ACTION_MOVE){
                     Log.d("777", "onTouch: asasa");
                     stopbannershow();
