@@ -8,11 +8,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +19,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
+ * {@link MyCartFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
+ * Use the {@link MyCartFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class MyCartFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,12 +33,10 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RecyclerView categoryRecycleView;
-    private CategoryAdapter categoryAdapter;
 
     private OnFragmentInteractionListener mListener;
-
-    public HomeFragment() {
+    private RecyclerView cartItemRecyclerView;
+    public MyCartFragment() {
         // Required empty public constructor
     }
 
@@ -50,11 +46,11 @@ public class HomeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment MyCartFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
+    public static MyCartFragment newInstance(String param1, String param2) {
+        MyCartFragment fragment = new MyCartFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -75,28 +71,22 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_home2, container, false);
-       categoryRecycleView=view.findViewById(R.id.category_recycle_view);
-       LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
-      layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        categoryRecycleView.setLayoutManager(layoutManager);
-        List<CategoryModel> categoryModelList=new ArrayList<CategoryModel>();
-        categoryModelList.add(new CategoryModel("link","Home"));
-        categoryModelList.add(new CategoryModel("link","Appliance"));
-        categoryModelList.add(new CategoryModel("link","家具"));
-        categoryModelList.add(new CategoryModel("link","fashion"));
-        categoryModelList.add(new CategoryModel("link","toyz"));
-        categoryModelList.add(new CategoryModel("link","sports"));
-        categoryModelList.add(new CategoryModel("link","wall arts"));
-        categoryModelList.add(new CategoryModel("link","books"));
-        categoryModelList.add(new CategoryModel("link","shoes"));
-        Log.d("5555", "onCreateView: "+categoryModelList.get(0).getCategoryName());
-        categoryAdapter=new CategoryAdapter(categoryModelList);
-        Log.d("5555", "onCreateView: "+categoryAdapter.getItemCount());
-        categoryRecycleView.setAdapter(categoryAdapter);
-        Log.d("5555", "onCreateView: "+categoryRecycleView.getAdapter());
-        categoryAdapter.notifyDataSetChanged();
-        return view;
+        View view= inflater.inflate(R.layout.fragment_my_cart, container, false);
+        cartItemRecyclerView=view.findViewById(R.id.cart_items_recyclerview);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        cartItemRecyclerView.setLayoutManager(layoutManager);
+
+        List<CartItemModel> cartItemModelList=new ArrayList<>();
+        cartItemModelList.add(new CartItemModel(0,R.drawable.common_google_signin_btn_icon_dark,"px2",2,"4999","5999",1,0,0));
+        cartItemModelList.add(new CartItemModel(0,R.drawable.common_google_signin_btn_icon_dark,"px2",2,"4999","5999",1,0,0));
+        cartItemModelList.add(new CartItemModel(0,R.drawable.common_google_signin_btn_icon_dark,"px2",2,"4999","5999",1,0,0));
+        cartItemModelList.add(new CartItemModel(1,"price","1699","free","16999","5999"));
+
+        CartAdapter cartAdapter=new CartAdapter(cartItemModelList);
+        cartItemRecyclerView.setAdapter(cartAdapter);
+        cartAdapter.notifyDataSetChanged();
+        return  view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -105,6 +95,7 @@ public class HomeFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
 
 
     @Override

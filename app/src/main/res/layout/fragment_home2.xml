@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+  >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/category_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-
+        android:elevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -34,24 +34,58 @@
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toBottomOf="@+id/category_recycle_view"-->
 <!--        app:layout_constraintVertical_bias="0.0" />-->
-    <LinearLayout
-        android:id="@+id/linearLayout"
+
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toBottomOf="@+id/category_recycle_view">
 
-        <include layout="@layout/sliding_ad_banner" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                <include layout="@layout/sliding_ad_banner" />
 
-        <include layout="@layout/strip_ad_layout" />
-    </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                <include layout="@layout/strip_ad_layout" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/category_recycle_view">
+
+                <include layout="@layout/horizonal_scroll" />
+                <!--        <include layout="@layout/sliding_ad_banner" />-->
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include layout="@layout/grid_product_view"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
     <!--    android:elevation="3dp"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

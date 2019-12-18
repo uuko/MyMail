@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,10 +24,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.FrameLayout;
 
 public class SplashActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private AppBarConfiguration mAppBarConfiguration;
+    private  static  final  int HOME_FRAGMENT=0;
+    private  static  final  int CART_FRAGMENT=1;
+
+    private FrameLayout frameLayout;
+    private static  int currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,7 @@ public class SplashActivity extends AppCompatActivity implements NavigationView.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.splash, menu);
         return true;
     }
@@ -78,9 +87,18 @@ public class SplashActivity extends AppCompatActivity implements NavigationView.
         }else if (id==R.id.main_notification_icon){
             return true;
         }else if (id==R.id.main_cart_icon){
+            myCart();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void myCart() {
+        invalidateOptionsMenu();
+//        setFragmet(new MyCartFragment(),CART_FRAGMENT);
+        NavigationView navigationView=findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(2).setChecked(true);
+
     }
 
     @Override
@@ -90,5 +108,12 @@ public class SplashActivity extends AppCompatActivity implements NavigationView.
 
         }
         return false;
+    }
+
+    private void setFragmet(Fragment fragment,int fragmentNo){
+        currentFragment =fragmentNo;
+        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(frameLayout.getId(),fragment);
+        fragmentTransaction.commit();
     }
 }

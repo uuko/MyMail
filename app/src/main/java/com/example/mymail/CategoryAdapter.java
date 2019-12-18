@@ -1,5 +1,6 @@
 package com.example.mymail;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         String icon=categoryModelList.get(position).getCategoryIconlink();
         String name=categoryModelList.get(position).getCategoryName();
-        holder.setCategoryName(name);
+        holder.setCategory(name);
         Log.d("test","name"+name);
     }
 
@@ -61,8 +62,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         private void setCategoryicon( ){
 
         }
-        private void setCategoryName(String name){
+        private void setCategory(final String name){
             categoryName.setText(name);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent categortintent=new Intent(itemView.getContext(),CategoryActivity.class);
+                    categortintent.putExtra("Categoryname",name);
+                    itemView.getContext().startActivity(categortintent);
+                }
+
+            });
         }
 
     }
